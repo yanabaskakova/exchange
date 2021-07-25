@@ -1,0 +1,27 @@
+{
+  "extends": "react-app",
+  "plugins": ["simple-import-sort", "prettier"],
+  "rules": {
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    "sort-imports": "off",
+    "simple-import-sort/sort": [
+      "error",
+      {
+        "groups": [["^\\u0000"], ["^@?\\w"], ["^(pages/|components/)*"], ["^\\."]]
+      }
+    ],
+    "no-unused-vars": "error"
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "legacyDecorators": true
+    }
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
+  }
+}

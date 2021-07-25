@@ -1,13 +1,174 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins-Regular.eot');
+  src: url('./assets/fonts/Poppins-Regular.eot?#iefix') format('embedded-opentype'),
+    url('./assets/fonts/Poppins-Regular.woff2') format('woff2'),
+    url('./assets/fonts/Poppins-Regular.woff') format('woff'),
+    url('./assets/fonts/Poppins-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins-Bold.eot');
+  src: url('./assets/fonts/Poppins-Bold.eot?#iefix') format('embedded-opentype'),
+    url('./assets/fonts/Poppins-Bold.woff2') format('woff2'),
+    url('./assets/fonts/Poppins-Bold.woff') format('woff'),
+    url('./assets/fonts/Poppins-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins-Medium.eot');
+  src: url('./assets/fonts/Poppins-Medium.eot?#iefix') format('embedded-opentype'),
+    url('./assets/fonts/Poppins-Medium.woff2') format('woff2'),
+    url('./assets/fonts/Poppins-Medium.woff') format('woff'),
+    url('./assets/fonts/Poppins-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins-SemiBold.eot');
+  src: url('./assets/fonts/Poppins-SemiBold.eot?#iefix') format('embedded-opentype'),
+    url('./assets/fonts/Poppins-SemiBold.woff2') format('woff2'),
+    url('./assets/fonts/Poppins-SemiBold.woff') format('woff'),
+    url('./assets/fonts/Poppins-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PTMono';
+  src: url('./assets/fonts/PTMono-Regular.eot');
+  src: url('./assets/fonts/PTMono-Regular.eot?#iefix') format('embedded-opentype'),
+    url('./assets/fonts/PTMono-Regular.woff2') format('woff2'),
+    url('./assets/fonts/PTMono-Regular.woff') format('woff'),
+    url('./assets/fonts/PTMono-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html {
+  box-sizing: border-box;
+
+  font-family: 'Poppins', sans-serif;
+  font-weight: normal;
+
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  color: #000;
+
+  height: 100%;
+
+  font-size: 16px;
+  line-height: 24px;
+}
+/* @media screen and (max-width: 576px) {
+  html {
+    font-size: 12px;
+    line-height: 16px;
+  }
+} */
+
+@media screen and (max-width: 1200px) {
+  html {
+    font-size: 14px;
+    line-height: 18px;
+  }
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  display: block;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  transition: background-color 0.15s linear;
+}
+
+#root {
+  height: 100%;
+}
+#modal-portal,
+#modal-portal-tsx {
+  z-index: 2;
+}
+
+/** @see https://stackoverflow.com/questions/5069752/ios-4-2-webfont-ttf-s-bold-font-weight-rendering-bug/11879044#11879044 */
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: normal;
+}
+
+strong {
+  font-weight: 600;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+sup,
+sub {
+  font-size: 0.47em;
+  padding: 0 2px;
+}
+
+sup {
+  vertical-align: super;
+}
+
+sub {
+  vertical-align: sub;
+}
+
+b,
+strong {
+  font-weight: 600;
+}
+
+i {
+  font-style: italic;
+}
+
+a {
+  color: inherit;
+}
+
+input {
+  font-family: 'Poppins';
+}
+
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
 }
