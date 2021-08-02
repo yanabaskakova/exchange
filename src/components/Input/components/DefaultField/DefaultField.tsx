@@ -5,7 +5,6 @@ import { FieldProps } from 'components/Input/types';
 import { Label, StyledDefaultField, StyledIconWrapper } from './DefaultField.styles';
 
 const DefaultField: React.FC<FieldProps> = ({ className, children, valid, disabled, icon, label }) => {
-  console.log('valid', valid);
   return (
     <div>
       {label && <Label>{label}</Label>}

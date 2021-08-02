@@ -1,40 +1,72 @@
-import { FC } from 'react';
+import BigNumber from 'bignumber.js';
+import React from 'react';
 
-import { isEqualOrLess, isNumber } from 'components/Input/Input.helpers';
-import { AMOUNT_REGEXP } from 'pages/Exchange/Exchange.constants';
+import { useNumberInput, Value } from 'components/NumberInput/useNumberInput';
+import Select from 'components/Select';
+import { Option } from 'components/Select/types';
+import { Currency } from 'pages/Main/mainSlice';
 
-import { StyledCurrencyInfo, StyledInput, Wrapper } from './CurrencyInput.styles';
+import * as S from './CurrencyInput.styled';
 
 interface Props {
-  currency: string;
+  currency: Currency;
+  placeholder?: string;
   balance: string;
   className?: string;
   value?: string;
   checkBalance?: boolean;
-  onChange: (value: string) => void;
+  rules?: ((value: string) => boolean)[];
+  options: Option<Currency>[];
+  onChange: (value: Value) => void;
+  onCurrencyChange: (option: Option<Currency>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
 
-const CurrencyInput: FC<Props> = ({ value, className, currency, balance, checkBalance, onChange }) => {
-  const handleChange = (value: string) => {
-    if (!AMOUNT_REGEXP.test(value)) {
-      return;
-    }
-
-    onChange(value);
-  };
-
-  const isEqualOrLessThanBalance = (value: string) => isEqualOrLess(value, Number(balance));
-
-  return (
-    <Wrapper className={className}>
-      <StyledInput
-        startAdornment={<StyledCurrencyInfo currency={currency} balance={balance} />}
-        rules={checkBalance ? [isNumber, isEqualOrLessThanBalance] : [isNumber]}
-        value={value || ''}
-        onChange={handleChange}
-      />
-    </Wrapper>
-  );
+const SUFFIX = {
+  usd: '$',
+  gbp: '£',
+  rub: '₽',
 };
+
+const BN = BigNumber.clone({
+  FORMAT: {
+    groupSeparator: ' ',
+    decimalSeparator: '.',
+    groupSize: 3,
+  },
+});
+
+const CurrencyInput = React.forwardRef<HTMLInputElement, Props>(
+  (
+    { value, placeholder, className, currency, balance, options, rules, onChange, onCurrencyChange, onBlur },
+    ref
+  ) => {
+    const inputProps = useNumberInput({ rules, onChange, defaultValue: value, canEnterNonValidValue: false });
+
+    const selectedOptions = options.filter((opt) => opt.value === currency);
+    return (
+      <S.Wrapper className={className}>
+        <S.SelectWrapper>
+          <Select
+            ui="bigSelect"
+            selectedOptions={selectedOptions}
+            options={options}
+            onChange={onCurrencyChange}
+          />
+          <S.Balance>
+            You have {new BN(balance).toFormat(2)} {SUFFIX[currency]}
+          </S.Balance>
+        </S.SelectWrapper>
+        <S.StyledInput
+          ref={ref}
+          placeholder={placeholder}
+          value={inputProps.formattedValue}
+          onChange={inputProps.onChange}
+          onBlur={onBlur}
+        />
+      </S.Wrapper>
+    );
+  }
+);
 
 export default CurrencyInput;

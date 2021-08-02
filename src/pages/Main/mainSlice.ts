@@ -1,8 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+export type Currency = 'usd' | 'gbp' | 'rub';
 
 export interface Account {
   account: string;
-  currency: string;
+  currency: Currency;
   balance: number;
 }
 
@@ -26,24 +28,27 @@ interface MainState {
   history: History;
 }
 
-const initialState: MainState = {
-  accounts: [
-    {
-      account: '1234',
-      currency: 'USD',
-      balance: 100,
-    },
-    {
-      account: '5',
-      currency: 'GBP',
-      balance: 130,
-    },
-  ],
-  activeAccount: {
-    account: '1234',
-    currency: 'USD',
+const accounts: Account[] = [
+  {
+    account: 'usd',
+    currency: 'usd',
     balance: 100,
   },
+  {
+    account: 'gbp',
+    currency: 'gbp',
+    balance: 130,
+  },
+  {
+    account: 'rub',
+    currency: 'rub',
+    balance: 100,
+  },
+];
+
+const initialState: MainState = {
+  accounts,
+  activeAccount: accounts[0],
   history: {},
 };
 
@@ -51,8 +56,26 @@ export const mainSlice = createSlice({
   name: 'main',
   initialState,
   reducers: {
-    changeActiveAccount: (state, action) => {
-      state.activeAccount = action.payload;
+    changeActiveAccount: (state, action: PayloadAction<{ account: Account }>) => {
+      state.activeAccount = action.payload.account;
+    },
+    exchange: (
+      state,
+      action: PayloadAction<{
+        sourceAccount: Account;
+        targetAccount: Account;
+        sourceAmount: string;
+        targetAmount: string;
+      }>
+    ) => {
+      const { sourceAccount, targetAccount, sourceAmount, targetAmount } = action.payload;
+      const sourceIdx = state.accounts.findIndex((account) => account.account === sourceAccount.account);
+      const targetIdx = state.accounts.findIndex((account) => account.account === targetAccount.account);
+
+      state.accounts[sourceIdx].balance -= Number(sourceAmount);
+      state.accounts[targetIdx].balance += Number(targetAmount);
+
+      state.activeAccount = state.accounts[sourceIdx];
     },
   },
 });

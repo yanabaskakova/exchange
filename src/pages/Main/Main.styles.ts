@@ -13,6 +13,7 @@ export const AccountList = styled.div`
 
 const arrowCss = css`
   position: absolute;
+  user-select: none;
   top: 50%;
   z-index: 1;
   cursor: pointer;

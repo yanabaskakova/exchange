@@ -4,8 +4,6 @@ import React, { useMemo, useState } from 'react';
 import DefaultField from './components/DefaultField';
 
 export interface InputProps {
-  skeleton?: boolean;
-
   className?: string;
 
   type?: 'text' | 'number';
@@ -28,8 +26,6 @@ export interface InputProps {
 }
 
 const Input: React.FC<InputProps> = ({
-  skeleton = false,
-
   className,
 
   type = 'text',

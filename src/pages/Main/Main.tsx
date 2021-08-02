@@ -1,69 +1,73 @@
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
+import { shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import Slider from 'react-slick';
-import { RootState } from 'store';
 
 import Button from 'components/Button';
 
-// import Icon from 'components/Icon';
 import AccountInfo from './components/AccountInfo';
-import {
-  AccountActions,
-  AccountList,
-  ArrowLeft,
-  ArrowRight,
-  HistorySection,
-  MainPage,
-  MainTitle,
-  SectionTitle,
-} from './Main.styles';
+import * as S from './Main.styles';
 import { actions } from './mainSlice';
 
+const settings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  arrows: false,
+};
+
 const Main = () => {
-  const accounts = useAppSelector((state: RootState) => state.main.accounts);
-  const activeAccount = useAppSelector((state: RootState) => state.main.activeAccount);
-  const dispatch = useAppDispatch();
-  console.log({ activeAccount });
-
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: false,
-    afterChange: (idx: number) => {
-      dispatch(actions.changeActiveAccount(accounts[idx]));
-    },
-  };
-
+  const history = useHistory();
   const ref = useRef<Slider>(null);
+
+  const dispatch = useAppDispatch();
+  const { accounts, activeAccount } = useAppSelector(
+    (state) => ({
+      accounts: state.main.accounts,
+      activeAccount: state.main.activeAccount,
+    }),
+    shallowEqual
+  );
+
+  console.log({ activeAccount });
 
   const goToNextSlide = () => ref.current?.slickNext();
   const goToPrevSlide = () => ref.current?.slickPrev();
 
-  return (
-    <MainPage>
-      <MainTitle>Your Accounts</MainTitle>
-      <AccountList>
-        <ArrowLeft icon="arrow-left" onClick={goToPrevSlide} />
-        <ArrowRight icon="arrow-right" onClick={goToNextSlide} />
-        <Slider {...settings} ref={ref}>
-          {accounts.map((accountInfo) => {
-            return <AccountInfo account={accountInfo} />;
-          })}
-        </Slider>
-      </AccountList>
-      <AccountActions>
-        <Button variant="outline" shape="rect">
-          Exchange
-        </Button>
-      </AccountActions>
+  const afterChange = useCallback(
+    (idx: number) => {
+      dispatch(actions.changeActiveAccount({ account: accounts[idx] }));
+    },
+    [dispatch, accounts]
+  );
 
-      <HistorySection>
-        <SectionTitle>History</SectionTitle>
-      </HistorySection>
-    </MainPage>
+  return (
+    <>
+      <S.MainPage>
+        <S.MainTitle>Your Accounts</S.MainTitle>
+        <S.AccountList>
+          <S.ArrowLeft icon="arrow-left" onClick={goToPrevSlide} />
+          <S.ArrowRight icon="arrow-right" onClick={goToNextSlide} />
+          <Slider {...settings} ref={ref} afterChange={afterChange}>
+            {accounts.map((accountInfo) => {
+              return <AccountInfo key={accountInfo.account} account={accountInfo} />;
+            })}
+          </Slider>
+        </S.AccountList>
+        <S.AccountActions>
+          <Button variant="outline" shape="rect" onClick={() => history.push('/exchange')}>
+            Exchange
+          </Button>
+        </S.AccountActions>
+
+        <S.HistorySection>
+          <S.SectionTitle>History</S.SectionTitle>
+        </S.HistorySection>
+      </S.MainPage>
+    </>
   );
 };
 

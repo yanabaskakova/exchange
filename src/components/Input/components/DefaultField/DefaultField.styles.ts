@@ -51,7 +51,6 @@ export const StyledDefaultField = styled.div<StyledDefaultFieldProps>`
   }
 
   ${({ $invalid, theme }) => {
-    console.log('$invalid', $invalid);
     return (
       $invalid &&
       css`

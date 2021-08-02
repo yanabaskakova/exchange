@@ -1,12 +1,21 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import CurrencyInput from 'components/CurrencyInput';
 import Icon from 'components/Icon';
 
 export const ExchangePage = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+  display: block;
+  padding: 0 20px;
+`;
+
+export const Title = styled.h1`
+  display: block;
+  margin-bottom: 18px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: #222222;
 `;
 
 export const CurrencyInputTo = styled(CurrencyInput)`
@@ -14,7 +23,9 @@ export const CurrencyInputTo = styled(CurrencyInput)`
 `;
 
 export const Wrapper = styled.div`
+  display: block;
   position: relative;
+  width: 100%;
 `;
 
 export const StyledIcon = styled(Icon)`
@@ -28,7 +39,7 @@ export const StyledIcon = styled(Icon)`
   }
 `;
 
-export const SwitchArrow = styled.div`
+export const SwitchArrow = styled.div<{ $disabled?: boolean }>`
   position: absolute;
   top: 50%;
   left: 50%;
@@ -43,6 +54,11 @@ export const SwitchArrow = styled.div`
   justify-content: center;
   cursor: pointer;
   transition: background-color 0.15s linear;
+  ${(props) =>
+    props.$disabled &&
+    css`
+      pointer-events: none;
+    `}
 
   &:hover {
     background-color: #f9faff;
@@ -51,20 +67,6 @@ export const SwitchArrow = styled.div`
         fill: #3273f0;
       }
     }
-  }
-`;
-
-export const Rate = styled.div`
-  font-size: 14px;
-  padding: 5px 10px;
-  text-align: center;
-  color: #555;
-  margin-bottom: 10px;
-  cursor: pointer;
-  transition: background-color 0.15s linear;
-  border-radius: 5px;
-  &:hover {
-    background-color: #e1ebfe;
   }
 `;
 

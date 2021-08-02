@@ -10,7 +10,7 @@
         "groups": [["^\\u0000"], ["^@?\\w"], ["^(pages/|components/)*"], ["^\\."]]
       }
     ],
-    "no-unused-vars": "error"
+    "no-unused-vars": "off"
   },
   "parserOptions": {
     "ecmaFeatures": {

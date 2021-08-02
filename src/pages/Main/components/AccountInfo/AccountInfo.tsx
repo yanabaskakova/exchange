@@ -13,7 +13,6 @@ interface Props {
 const AccountInfo: FC<Props> = ({ account }) => {
   const { currency, balance } = account;
   const currencyInfo = getCurrencyBySymbol(currency);
-  console.log('currencyInfo', currencyInfo, currency);
   const currSymbol = getSymbolFromCurrency(currency);
 
   return (

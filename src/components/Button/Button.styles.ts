@@ -40,6 +40,7 @@ const btnKindCss = css<{ kind: ButtonKind; variant: ButtonVariant }>`
 
 export const StyledButton = styled.button<{ shape: ButtonShape; kind: ButtonKind; variant: ButtonVariant }>`
   position: relative;
+  user-select: none;
   overflow: hidden;
   border: none;
   transition: background-color 0.15s linear, color 0.15s linear;
