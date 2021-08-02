@@ -23,9 +23,7 @@ const Main = () => {
   const ref = useRef<Slider>(null);
 
   const dispatch = useAppDispatch();
-  const { accounts, activeAccount, history } = useAppSelector((state) => state.main);
-
-  console.log({ activeAccount });
+  const { accounts, history } = useAppSelector((state) => state.main);
 
   const goToNextSlide = () => ref.current?.slickNext();
   const goToPrevSlide = () => ref.current?.slickPrev();
@@ -38,34 +36,34 @@ const Main = () => {
   );
 
   return (
-    <>
-      <S.MainPage>
-        <S.MainTitle>Your Accounts</S.MainTitle>
-        <S.AccountList>
-          <S.ArrowLeft icon="arrow-left" onClick={goToPrevSlide} />
-          <S.ArrowRight icon="arrow-right" onClick={goToNextSlide} />
-          <Slider {...settings} ref={ref} afterChange={afterChange}>
-            {accounts.map((accountInfo) => {
-              return <AccountInfo key={accountInfo.account} account={accountInfo} />;
-            })}
-          </Slider>
-        </S.AccountList>
-        <S.AccountActions>
-          <Button variant="outline" shape="rect" onClick={() => routerHistory.push('/exchange')}>
-            Exchange
-          </Button>
-        </S.AccountActions>
+    <S.MainPage>
+      <S.MainTitle>Your Accounts</S.MainTitle>
+      <S.AccountList>
+        <S.ArrowLeft icon="arrow-left" onClick={goToPrevSlide} />
+        <S.ArrowRight icon="arrow-right" onClick={goToNextSlide} />
+        <Slider {...settings} ref={ref} afterChange={afterChange}>
+          {accounts.map((accountInfo) => {
+            return <AccountInfo key={accountInfo.account} account={accountInfo} />;
+          })}
+        </Slider>
+      </S.AccountList>
+      <S.AccountActions>
+        <Button variant="outline" shape="rect" onClick={() => routerHistory.push('/exchange')}>
+          Exchange
+        </Button>
+      </S.AccountActions>
 
-        <S.HistorySection>
-          <S.SectionTitle>History</S.SectionTitle>
+      <S.HistorySection>
+        <S.SectionTitle>History</S.SectionTitle>
+        <S.HistoryWrapper>
           {history
             .map((item) => {
-              return <S.StyledHistoryItem item={item} />;
+              return <S.StyledHistoryItem item={item} key={item.date} />;
             })
             .reverse()}
-        </S.HistorySection>
-      </S.MainPage>
-    </>
+        </S.HistoryWrapper>
+      </S.HistorySection>
+    </S.MainPage>
   );
 };
 

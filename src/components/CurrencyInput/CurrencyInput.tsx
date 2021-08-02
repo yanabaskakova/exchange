@@ -15,6 +15,7 @@ interface Props {
   balance: string;
   className?: string;
   value?: string;
+  prefix?: string;
   checkBalance?: boolean;
   rules?: ((value: string) => boolean)[];
   options: Option<Currency>[];
@@ -33,7 +34,19 @@ const BN = BigNumber.clone({
 
 const CurrencyInput = React.forwardRef<HTMLInputElement, Props>(
   (
-    { value, placeholder, className, currency, balance, options, rules, onChange, onCurrencyChange, onBlur },
+    {
+      value,
+      prefix,
+      placeholder,
+      className,
+      currency,
+      balance,
+      options,
+      rules,
+      onChange,
+      onCurrencyChange,
+      onBlur,
+    },
     ref
   ) => {
     const inputProps = useNumberInput({ rules, onChange, defaultValue: value, canEnterNonValidValue: false });
@@ -54,6 +67,7 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, Props>(
         </S.SelectWrapper>
         <S.StyledInput
           ref={ref}
+          data-testid={`${prefix}-input`}
           placeholder={placeholder}
           value={inputProps.formattedValue}
           onChange={inputProps.onChange}
