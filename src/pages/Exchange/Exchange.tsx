@@ -100,32 +100,39 @@ const Exchange = () => {
   const handleExchange = () => {
     if (disabled || !rate) return;
 
-    appDispatch(
-      MainSlice.actions.exchange({
-        sourceAccount: activeAccount,
-        targetAccount: currentTargetAccount,
-        sourceAmount: valueFrom,
-        targetAmount: valueTo,
-      })
-    );
+    batch(() => {
+      appDispatch(
+        MainSlice.actions.exchange({
+          sourceAccount: activeAccount,
+          targetAccount: currentTargetAccount,
+          sourceAmount: valueFrom,
+          targetAmount: valueTo,
+        })
+      );
+
+      dispatch(Slice.actions.changeValueTo({ valueTo: '', rate }));
+      dispatch(Slice.actions.changeValueFrom({ valueFrom: '', rate }));
+    });
   };
 
   useEffect(() => {
     if (!rate) return;
     const activeElement = document.activeElement;
 
-    if (activeElement === inputFromRef.current) {
-      dispatch(Slice.actions.changeValueTo({ rate }));
-      return;
-    }
+    batch(() => {
+      if (activeElement === inputFromRef.current) {
+        dispatch(Slice.actions.changeValueTo({ rate }));
+        return;
+      }
 
-    if (activeElement === inputToRef.current) {
+      if (activeElement === inputToRef.current) {
+        dispatch(Slice.actions.changeValueFrom({ rate }));
+        return;
+      }
+
       dispatch(Slice.actions.changeValueFrom({ rate }));
-      return;
-    }
-
-    dispatch(Slice.actions.changeValueFrom({ rate }));
-    dispatch(Slice.actions.changeValueTo({ rate }));
+      dispatch(Slice.actions.changeValueTo({ rate }));
+    });
   }, [rate, rates]);
 
   if (!rate || !rates) return <span>Loading</span>;
