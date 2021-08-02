@@ -1,11 +1,11 @@
-// import axios from 'axios';
+import axios from 'axios';
 
 interface IRates {
   base?: string;
   symbols?: string;
 }
 
-const mock = {
+export const mock = {
   disclaimer: 'Usage subject to terms: https://openexchangerates.org/terms',
   license: 'https://openexchangerates.org/license',
   timestamp: 1627236010,
@@ -185,14 +185,16 @@ const mock = {
 };
 
 export const getRates = async (params: IRates = {}) => {
-  console.log('fetch');
-  await new Promise<void>((resolve) =>
-    setTimeout(() => {
-      resolve();
-    }, 100)
-  );
-  return { data: mock };
-  // return axios.get('https://openexchangerates.org/api/latest.json', {
-  //   params: { app_id: process.env.REACT_APP_RATES_APP_ID, ...params },
-  // });
+  // used for testing
+
+  // await new Promise<void>((resolve) =>
+  //   setTimeout(() => {
+  //     resolve();
+  //   }, 100)
+  // );
+  // return { data: mock };
+
+  return axios.get('https://openexchangerates.org/api/latest.json', {
+    params: { app_id: process.env.REACT_APP_RATES_APP_ID, ...params },
+  });
 };

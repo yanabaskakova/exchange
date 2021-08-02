@@ -4,4 +4,5 @@ export const CURRENCY_LIST = [
   { label: 'GBP', description: 'British Pound', value: 'gbp' },
   { label: 'EUR', description: 'Euro', value: 'eur' },
   { label: 'USD', description: 'US Dollar', value: 'usd' },
+  { label: 'RUB', description: 'Russian rubble', value: 'rub' },
 ];

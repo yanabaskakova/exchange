@@ -74,3 +74,7 @@ export const StyledHistoryItem = styled(HistoryItem)`
     margin-top: 0;
   }
 `;
+export const HistoryWrapper = styled.div`
+  height: 470px;
+  overflow: scroll;
+`;

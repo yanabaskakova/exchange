@@ -12,5 +12,5 @@ export const Wrapper = styled.div`
   height: 812px;
   border-radius: 10px;
   background-color: #f9faff;
-  padding: 10px;
+  padding: 20px 10px;
 `;

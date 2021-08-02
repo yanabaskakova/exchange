@@ -9,28 +9,30 @@ import { useHistory } from 'react-router-dom';
 import Button from 'components/Button';
 import CurrencyInput from 'components/CurrencyInput';
 import { isEqualOrLess } from 'components/Input/Input.helpers';
+import Loader from 'components/Loader';
 import { Value } from 'components/NumberInput/useNumberInput';
 import { Option } from 'components/Select/types';
-import { Currency } from 'pages/Main/mainSlice';
+import * as MainSlice from 'pages/Main/mainSlice';
 
-import * as MainSlice from '../Main/mainSlice';
+import { checkRules, getOptionsFromAccounts, isEmpty } from './Exchange.helpers';
 import * as S from './Exchange.styles';
 import * as Slice from './exchangeSlice';
-
-function isEmpty(value: string) {
-  return value === '';
-}
+import { ValidationRule } from './types';
 
 const Exchange = () => {
   const history = useHistory();
+
   const inputFromRef = useRef<HTMLInputElement>(null);
   const inputToRef = useRef<HTMLInputElement>(null);
+
   const appDispatch = useAppDispatch();
   const { accounts, activeAccount } = useAppSelector(
     (state) => ({ accounts: state.main.accounts, activeAccount: state.main.activeAccount }),
     shallowEqual
   );
+
   const defaultTargetAccount = accounts.filter((account) => account.account !== activeAccount.account)[0];
+
   const [state, dispatch] = useReducer<typeof Slice.reducer>(Slice.reducer, {
     ...Slice.initialState,
     targetAccount: defaultTargetAccount,
@@ -49,16 +51,16 @@ const Exchange = () => {
     : null;
 
   const isEqualOrLessThanBalance = (value: string) => isEqualOrLess(value, Number(activeAccount.balance));
-  const rulesFrom = [isEqualOrLessThanBalance];
-  const rulesTo = [
-    (value: string) => isEqualOrLess((Number(value) / (rate || 1)).toString(), Number(activeAccount.balance)),
+  const rulesFrom: ValidationRule[] = [isEqualOrLessThanBalance];
+  const rulesTo: ValidationRule[] = [
+    (value) => isEqualOrLess((Number(value) / (rate || 1)).toString(), Number(activeAccount.balance)),
   ];
   const disabled =
-    (rulesFrom.some((rule) => !rule(valueFrom)) && rulesTo.some((rule) => !rule(valueTo))) ||
+    (checkRules(rulesFrom, valueFrom) && checkRules(rulesTo, valueTo)) ||
     isEmpty(valueFrom) ||
     isEmpty(valueTo);
 
-  const handleCurrencyFromChange = (option: Option<Currency>) => {
+  const handleCurrencyFromChange = (option: Option<MainSlice.Currency>) => {
     const account = accounts.find((account) => account.account === option.id);
     if (!account || !rate) throw new Error('Error');
 
@@ -72,7 +74,7 @@ const Exchange = () => {
     });
   };
 
-  const handleCurrencyToChange = (option: Option<Currency>) => {
+  const handleCurrencyToChange = (option: Option<MainSlice.Currency>) => {
     const account = accounts.find((account) => account.account === option.id);
     if (!account || !rate) throw new Error('Error');
 
@@ -135,7 +137,7 @@ const Exchange = () => {
     });
   }, [rate, rates]);
 
-  if (!rate || !rates) return <span>Loading</span>;
+  if (!rate || !rates) return <Loader />;
 
   return (
     <S.ExchangePage>
@@ -155,6 +157,7 @@ const Exchange = () => {
           onChange={handleValueFrom}
           onCurrencyChange={handleCurrencyFromChange}
           balance={activeAccount.balance.toString()}
+          prefix="from"
         />
 
         <S.CurrencyInputTo
@@ -167,6 +170,7 @@ const Exchange = () => {
           onCurrencyChange={handleCurrencyToChange}
           currency={currentTargetAccount.currency}
           balance={currentTargetAccount.balance.toString()}
+          prefix="to"
         />
         <S.SwitchArrow $disabled={disabled} onClick={handleExchange}>
           <S.StyledIcon icon="arrow-down" />
@@ -189,13 +193,3 @@ const Exchange = () => {
 };
 
 export default Exchange;
-
-function getOptionsFromAccounts(accounts: MainSlice.Account[]) {
-  return accounts.map((account) => {
-    return {
-      id: account.account,
-      label: account.currency.toUpperCase(),
-      value: account.currency,
-    };
-  });
-}

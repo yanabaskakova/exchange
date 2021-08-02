@@ -1,3 +1,18 @@
+
+## Exchange screen
+![image](https://user-images.githubusercontent.com/69914699/127898672-2c0a5ec9-b9a7-4eed-999f-eb5e371f4857.png)
+- When you type into `from` or `to` input, system will automatically recalculates values according to the latest rates.
+![image](https://user-images.githubusercontent.com/69914699/127898926-4de1fb26-c27a-46b9-902c-429898c38a51.png)
+- When you try to switch between currecies active one (in the select) will be disabled. Also you won't be able to select the same currencies. If you try to that currencies will switch (`to` currency -> `from` currency and `from` currency -> `to` currency)
+- `Exchange` button is disabled until inputs are filled
+- When you filled all inputs and pressed `Exchange`, system will automatically update balancies for currencies.
+
+## Accounts screen
+![image](https://user-images.githubusercontent.com/69914699/127899454-0187a1eb-0b5d-40d0-a2c8-3a7f51430a58.png)
+- You can scroll though accounts and see it's currency and balance
+- `Exchange` button will redirect to `Exchange` page
+- Also there's history section will the latest transactions/exchanges 
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
 ## Available Scripts
@@ -36,6 +51,7 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
 
 ## Learn More
 

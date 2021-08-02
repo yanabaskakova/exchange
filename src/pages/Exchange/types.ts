@@ -7,3 +7,5 @@ export type State = {
   valueTo: string;
   targetAccount: Account | null;
 };
+
+export type ValidationRule = (value: string) => boolean;
