@@ -20,7 +20,7 @@ const HistoryItem: React.FC<Props> = ({ className, item }) => {
       </S.Title>
       <S.Amount>
         <S.SourceAmount>
-          {/* Don't use toFixed in real projects */}
+          {/* Don't use toFixed for real projects */}
           {/* https://stackoverflow.com/questions/10015027/javascript-tofixed-not-rounding */}-{' '}
           {Number(item.sourceAmount).toFixed(2)} {getSymbolFromCurrency(item.sourceAccount.currency)}
         </S.SourceAmount>

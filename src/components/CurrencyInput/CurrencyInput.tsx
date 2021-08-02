@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import getSymbolFromCurrency from 'currency-symbol-map';
 import React from 'react';
 
 import { useNumberInput, Value } from 'components/NumberInput/useNumberInput';
@@ -21,12 +22,6 @@ interface Props {
   onCurrencyChange: (option: Option<Currency>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
-
-const SUFFIX = {
-  usd: '$',
-  gbp: '£',
-  rub: '₽',
-};
 
 const BN = BigNumber.clone({
   FORMAT: {
@@ -54,7 +49,7 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, Props>(
             onChange={onCurrencyChange}
           />
           <S.Balance>
-            You have {new BN(balance).toFormat(2)} {SUFFIX[currency]}
+            You have {new BN(balance).toFormat(2)} {getSymbolFromCurrency(currency.toUpperCase())}
           </S.Balance>
         </S.SelectWrapper>
         <S.StyledInput
