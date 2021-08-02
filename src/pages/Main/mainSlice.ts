@@ -8,24 +8,18 @@ export interface Account {
   balance: number;
 }
 
-// I know that frontend'll probably get an array from api. In that case we'll need to add a mapping function to change the structure
-// but i decided to make my life a little bit easier, so i use transformed version from the start. Hope you don't mind :)
-interface History {
-  [date: string]: [
-    {
-      date: string;
-      amount: string;
-      type: 'exchange';
-      currency: string;
-      transaction_sign: '+' | '-';
-    }
-  ];
+export interface HistoryItem {
+  sourceAccount: Account;
+  date: string;
+  targetAccount: Account;
+  sourceAmount: string;
+  targetAmount: string;
 }
 
 interface MainState {
   accounts: Account[];
   activeAccount: Account;
-  history: History;
+  history: HistoryItem[];
 }
 
 const accounts: Account[] = [
@@ -49,7 +43,7 @@ const accounts: Account[] = [
 const initialState: MainState = {
   accounts,
   activeAccount: accounts[0],
-  history: {},
+  history: [],
 };
 
 export const mainSlice = createSlice({
@@ -76,6 +70,15 @@ export const mainSlice = createSlice({
       state.accounts[targetIdx].balance += Number(targetAmount);
 
       state.activeAccount = state.accounts[sourceIdx];
+
+      const date = new Date().toString();
+      state.history.push({
+        date,
+        sourceAccount,
+        targetAccount,
+        sourceAmount,
+        targetAmount,
+      });
     },
   },
 });

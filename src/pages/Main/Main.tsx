@@ -1,6 +1,5 @@
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import React, { useCallback, useRef } from 'react';
-import { shallowEqual } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Slider from 'react-slick';
 
@@ -20,17 +19,11 @@ const settings = {
 };
 
 const Main = () => {
-  const history = useHistory();
+  const routerHistory = useHistory();
   const ref = useRef<Slider>(null);
 
   const dispatch = useAppDispatch();
-  const { accounts, activeAccount } = useAppSelector(
-    (state) => ({
-      accounts: state.main.accounts,
-      activeAccount: state.main.activeAccount,
-    }),
-    shallowEqual
-  );
+  const { accounts, activeAccount, history } = useAppSelector((state) => state.main);
 
   console.log({ activeAccount });
 
@@ -58,13 +51,18 @@ const Main = () => {
           </Slider>
         </S.AccountList>
         <S.AccountActions>
-          <Button variant="outline" shape="rect" onClick={() => history.push('/exchange')}>
+          <Button variant="outline" shape="rect" onClick={() => routerHistory.push('/exchange')}>
             Exchange
           </Button>
         </S.AccountActions>
 
         <S.HistorySection>
           <S.SectionTitle>History</S.SectionTitle>
+          {history
+            .map((item) => {
+              return <S.StyledHistoryItem item={item} />;
+            })
+            .reverse()}
         </S.HistorySection>
       </S.MainPage>
     </>

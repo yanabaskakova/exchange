@@ -4,6 +4,7 @@ import { useRates } from 'hooks';
 import _ from 'lodash';
 import { useEffect, useReducer, useRef } from 'react';
 import { batch, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import Button from 'components/Button';
 import CurrencyInput from 'components/CurrencyInput';
@@ -21,6 +22,7 @@ function isEmpty(value: string) {
 }
 
 const Exchange = () => {
+  const history = useHistory();
   const inputFromRef = useRef<HTMLInputElement>(null);
   const inputToRef = useRef<HTMLInputElement>(null);
   const appDispatch = useAppDispatch();
@@ -130,7 +132,11 @@ const Exchange = () => {
 
   return (
     <S.ExchangePage>
-      <S.Title>Exchange</S.Title>
+      <S.Header>
+        <S.HeaderArrow icon="arrow-left" onClick={() => history.push('/')} />
+        <S.Title>Exchange</S.Title>
+      </S.Header>
+
       <S.Wrapper>
         <CurrencyInput
           ref={inputFromRef}

@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 
+import HistoryItem from 'components/HistoryItem';
 import Icon from 'components/Icon';
 
 export const MainPage = styled.div``;
@@ -65,4 +66,11 @@ export const SectionTitle = styled.h4`
 
 export const HistorySection = styled.div`
   margin-top: 30px;
+`;
+
+export const StyledHistoryItem = styled(HistoryItem)`
+  margin-top: 25px;
+  &:first-child {
+    margin-top: 0;
+  }
 `;
