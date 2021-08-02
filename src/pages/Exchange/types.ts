@@ -1,4 +1,4 @@
-import { Account } from 'pages/Main/mainSlice';
+import { Account } from 'pages/Main/types';
 
 export type State = {
   status: 'idle' | 'loading' | 'error' | 'success';

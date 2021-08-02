@@ -1,7 +1,8 @@
 import getSymbolFromCurrency from 'currency-symbol-map';
+import useBigNumber from 'hooks/useBigNumber';
 import React from 'react';
 
-import { HistoryItem as HistoryItemType } from 'pages/Main/mainSlice';
+import { HistoryItem as HistoryItemType } from 'pages/Main/types';
 
 import * as S from './HistoryItem.styled';
 
@@ -11,6 +12,9 @@ interface Props {
 }
 
 const HistoryItem: React.FC<Props> = ({ className, item }) => {
+  const BN = useBigNumber();
+  const sourceAmount = new BN(item.sourceAmount).decimalPlaces(2).toFormat();
+  const targetAmount = new BN(item.targetAmount).decimalPlaces(2).toFormat();
   return (
     <S.Wrapper className={className}>
       <S.StyledIcon icon="exchange" />
@@ -20,12 +24,10 @@ const HistoryItem: React.FC<Props> = ({ className, item }) => {
       </S.Title>
       <S.Amount>
         <S.SourceAmount>
-          {/* Don't use toFixed for real projects */}
-          {/* https://stackoverflow.com/questions/10015027/javascript-tofixed-not-rounding */}-{' '}
-          {Number(item.sourceAmount).toFixed(2)} {getSymbolFromCurrency(item.sourceAccount.currency)}
+          - {sourceAmount} {getSymbolFromCurrency(item.sourceAccount.currency)}
         </S.SourceAmount>
         <S.TargetAmount>
-          + {Number(item.targetAmount).toFixed(2)} {getSymbolFromCurrency(item.targetAccount.currency)}
+          + {targetAmount} {getSymbolFromCurrency(item.targetAccount.currency)}
         </S.TargetAmount>
       </S.Amount>
     </S.Wrapper>

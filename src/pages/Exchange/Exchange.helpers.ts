@@ -1,5 +1,5 @@
 import { CURRENCY_LIST } from 'pages/Exchange/Exchange.constants';
-import { Account } from 'pages/Main/mainSlice';
+import { Account } from 'pages/Main/types';
 
 import { ValidationRule } from './types';
 

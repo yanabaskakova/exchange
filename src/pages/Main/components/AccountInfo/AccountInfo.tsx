@@ -1,8 +1,9 @@
+import BigNumber from 'bignumber.js';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import { FC } from 'react';
 
 import { getCurrencyBySymbol } from 'pages/Exchange/Exchange.helpers';
-import { Account } from 'pages/Main/mainSlice';
+import { Account } from 'pages/Main/types';
 
 import { Balance, CurrencyInfo, Wrapper } from './AccountInfo.styles';
 
@@ -18,7 +19,7 @@ const AccountInfo: FC<Props> = ({ account }) => {
   return (
     <Wrapper>
       <Balance>
-        {currSymbol} {balance.toFixed(2)}
+        {currSymbol} {new BigNumber(balance).decimalPlaces(2).toString()}
       </Balance>
       <CurrencyInfo>
         {currencyInfo?.label} - {currencyInfo?.description}

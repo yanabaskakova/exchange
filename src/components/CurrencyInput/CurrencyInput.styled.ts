@@ -13,7 +13,7 @@ export const StyledInput = styled.input`
   border: none;
   height: 24px;
   margin-top: 10px;
-  padding: 0;
+  padding: 0 0 0 5px;
   font-size: 24px;
   line-height: 24px;
   color: #424242;
@@ -31,9 +31,13 @@ export const SelectWrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
+  padding-bottom: 20px;
 `;
 
 export const Balance = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
   max-width: 100%;
   display: block;
   white-space: nowrap;

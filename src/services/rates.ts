@@ -187,14 +187,15 @@ export const mock = {
 export const getRates = async (params: IRates = {}) => {
   // used for testing
 
-  // await new Promise<void>((resolve) =>
-  //   setTimeout(() => {
-  //     resolve();
-  //   }, 100)
-  // );
-  // return { data: mock };
+  console.log('Fetching Rates');
+  await new Promise<void>((resolve) =>
+    setTimeout(() => {
+      resolve();
+    }, 100)
+  );
+  return { data: mock };
 
-  return axios.get('https://openexchangerates.org/api/latest.json', {
-    params: { app_id: process.env.REACT_APP_RATES_APP_ID, ...params },
-  });
+  // return axios.get('https://openexchangerates.org/api/latest.json', {
+  //   params: { app_id: process.env.REACT_APP_RATES_APP_ID, ...params },
+  // });
 };

@@ -1,48 +1,44 @@
-import BigNumber from 'bignumber.js';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import React from 'react';
 
 import { useNumberInput, Value } from 'components/NumberInput/useNumberInput';
 import Select from 'components/Select';
 import { Option } from 'components/Select/types';
-import { Currency } from 'pages/Main/mainSlice';
+import { Currency } from 'pages/Main/types';
 
 import * as S from './CurrencyInput.styled';
 
 interface Props {
+  className?: string;
+
+  value?: string;
   currency: Currency;
   placeholder?: string;
-  balance: string;
-  className?: string;
-  value?: string;
-  prefix?: string;
-  checkBalance?: boolean;
   rules?: ((value: string) => boolean)[];
+
   options: Option<Currency>[];
+
+  balance: string;
+  prefix?: string;
   onChange: (value: Value) => void;
   onCurrencyChange: (option: Option<Currency>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
 
-const BN = BigNumber.clone({
-  FORMAT: {
-    groupSeparator: ' ',
-    decimalSeparator: '.',
-    groupSize: 3,
-  },
-});
-
 const CurrencyInput = React.forwardRef<HTMLInputElement, Props>(
   (
     {
-      value,
-      prefix,
-      placeholder,
       className,
+
+      value,
       currency,
-      balance,
-      options,
+      placeholder,
       rules,
+
+      options,
+
+      balance,
+      prefix,
       onChange,
       onCurrencyChange,
       onBlur,
@@ -62,7 +58,7 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, Props>(
             onChange={onCurrencyChange}
           />
           <S.Balance>
-            You have {new BN(balance).toFormat(2)} {getSymbolFromCurrency(currency.toUpperCase())}
+            You have {balance} {getSymbolFromCurrency(currency.toUpperCase())}
           </S.Balance>
         </S.SelectWrapper>
         <S.StyledInput

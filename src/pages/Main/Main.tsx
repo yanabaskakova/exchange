@@ -1,7 +1,7 @@
-import { useAppDispatch, useAppSelector } from 'app/hooks';
 import React, { useCallback, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import Slider from 'react-slick';
+import { useAppDispatch, useAppSelector } from 'store';
 
 import Button from 'components/Button';
 

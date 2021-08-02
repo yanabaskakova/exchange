@@ -1,42 +1,23 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import BigNumber from 'bignumber.js';
 
-export type Currency = 'usd' | 'gbp' | 'rub';
-
-export interface Account {
-  account: string;
-  currency: Currency;
-  balance: number;
-}
-
-export interface HistoryItem {
-  sourceAccount: Account;
-  date: string;
-  targetAccount: Account;
-  sourceAmount: string;
-  targetAmount: string;
-}
-
-interface MainState {
-  accounts: Account[];
-  activeAccount: Account;
-  history: HistoryItem[];
-}
+import { Account, MainState } from './types';
 
 const accounts: Account[] = [
   {
     account: 'usd',
     currency: 'usd',
-    balance: 100,
+    balance: '1000000.129024912',
   },
   {
     account: 'gbp',
     currency: 'gbp',
-    balance: 130,
+    balance: '13000000.021241',
   },
   {
     account: 'rub',
     currency: 'rub',
-    balance: 100,
+    balance: '100000000.12904019502194',
   },
 ];
 
@@ -66,8 +47,11 @@ export const mainSlice = createSlice({
       const sourceIdx = state.accounts.findIndex((account) => account.account === sourceAccount.account);
       const targetIdx = state.accounts.findIndex((account) => account.account === targetAccount.account);
 
-      state.accounts[sourceIdx].balance -= Number(sourceAmount);
-      state.accounts[targetIdx].balance += Number(targetAmount);
+      const sourceBalance = new BigNumber(sourceAccount.balance).minus(sourceAmount).toString();
+      const targetBalance = new BigNumber(targetAccount.balance).plus(targetAmount).toString();
+
+      state.accounts[sourceIdx].balance = sourceBalance;
+      state.accounts[targetIdx].balance = targetBalance;
 
       state.activeAccount = state.accounts[sourceIdx];
 

@@ -20,7 +20,7 @@ export const useRates = () => {
       }
     }
 
-    setRates({ ...data.rates });
+    setRates(data.rates);
   };
 
   const fetchRates = useCallback(async () => {
