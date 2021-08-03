@@ -38,4 +38,5 @@ export const TargetAmount = styled.span`
   font-size: 12px;
   line-height: 18px;
   color: #a0a0a0;
+  text-align: end;
 `;
