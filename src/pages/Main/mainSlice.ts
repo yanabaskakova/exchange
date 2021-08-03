@@ -7,7 +7,7 @@ const accounts: Account[] = [
   {
     account: 'usd',
     currency: 'usd',
-    balance: '1000000.129024912',
+    balance: '1000000',
   },
   {
     account: 'gbp',

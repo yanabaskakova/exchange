@@ -62,7 +62,7 @@ export const useNumberInput = (options: Options) => {
 
     setValid(valid);
     if (valid || canEnterNonValidValue) {
-      const formattedValue = `${symbol}${format(potentialValue, integer, decimal)}`;
+      const formattedValue = `${symbol}${format(integer, decimal)}`;
       const newState = { value: potentialValue, formattedValue, valid };
 
       onChange && onChange(newState);
@@ -77,12 +77,12 @@ export const useNumberInput = (options: Options) => {
   return { valid, ...state, onChange: onChangeValue };
 };
 
-function format(value: string, integer: string, decimal: string) {
-  if (!value || !integer) return '';
+export const format = (integer: string, decimal: string) => {
+  if (!integer) return '';
   return `${BigInt(integer).toLocaleString()}${decimal}`;
-}
+};
 
-function splitOnIntegerAndDecimal(value: string, decimalSeparator: string, decimalScale: number) {
+export const splitOnIntegerAndDecimal = (value: string, decimalSeparator: string, decimalScale: number) => {
   const pos = value.lastIndexOf(decimalSeparator);
   const integerSlice = pos === -1 ? value : value.slice(0, pos);
   const decimalSlice = pos === -1 ? null : `${decimalSeparator}${value.slice(pos + 1)}`;
@@ -92,13 +92,13 @@ function splitOnIntegerAndDecimal(value: string, decimalSeparator: string, decim
     decimalSlice === null ? '' : decimalSeparator + decimalSlice.replace(/\D/g, '').slice(0, decimalScale);
 
   return { integer, decimal, pos };
-}
+};
 
-function initState(defaultValue: string, decimalSeparator: string, decimalScale: number): State {
+const initState = (defaultValue: string, decimalSeparator: string, decimalScale: number): State => {
   const { integer, decimal } = splitOnIntegerAndDecimal(defaultValue, decimalSeparator, decimalScale);
 
   return {
     value: defaultValue,
-    formattedValue: format(defaultValue, integer, decimal),
+    formattedValue: format(integer, decimal),
   };
-}
+};

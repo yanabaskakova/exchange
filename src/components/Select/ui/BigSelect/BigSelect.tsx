@@ -29,7 +29,7 @@ const BigSelect = <Value extends unknown = string | number>({
       </S.Label>
 
       {open && (
-        <S.Dropdown>
+        <S.Dropdown data-testid="dropdown-list">
           {options.map((option) => {
             const selected = currentSelectedOptions.find((opt) => opt.id === option.id);
             return (

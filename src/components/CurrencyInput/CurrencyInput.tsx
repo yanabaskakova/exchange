@@ -56,6 +56,7 @@ const CurrencyInput = React.forwardRef<HTMLInputElement, Props>(
             selectedOptions={selectedOptions}
             options={options}
             onChange={onCurrencyChange}
+            dataTestId={`${prefix}-select`}
           />
           <S.Balance>
             You have {balance} {getSymbolFromCurrency(currency.toUpperCase())}

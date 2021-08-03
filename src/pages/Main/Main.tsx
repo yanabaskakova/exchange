@@ -39,7 +39,7 @@ const Main = () => {
     <S.MainPage>
       <S.MainTitle>Your Accounts</S.MainTitle>
       <S.AccountList>
-        <S.ArrowLeft icon="arrow-left" onClick={goToPrevSlide} />
+        <S.ArrowLeft icon="arrow-left" data-testId="arrow-left" onClick={goToPrevSlide} />
         <S.ArrowRight icon="arrow-right" onClick={goToNextSlide} />
         <Slider {...settings} ref={ref} afterChange={afterChange}>
           {accounts.map((accountInfo) => {
