@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import getSymbolFromCurrency from 'currency-symbol-map';
 import { useRates } from 'hooks';
-import { useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import { batch, shallowEqual } from 'react-redux';
 import { useAppDispatch, useAppSelector } from 'store';
 
@@ -32,6 +32,11 @@ const Exchange = () => {
   });
 
   const { valueFrom, valueTo, targetAccount } = state;
+
+  useEffect(() => {
+    const newTarget = accounts.find((account) => account.account === targetAccount?.account);
+    newTarget && dispatch(Slice.actions.changeTargetAccount({ targetAccount: newTarget }));
+  }, [accounts, targetAccount]);
 
   const rates = useRates();
 
